@@ -1,10 +1,11 @@
 from flask import Flask, request
 import requests
+import os
 
 app = Flask(__name__)
 
-BOT_TOKEN = "8090658375:AAFf9me2H75VancI4nSYIIv07Pmq5EE4uBk"
-CHAT_ID = "498183851"
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+CHAT_ID = os.environ.get("CHAT_ID")
 
 def send_telegram_message(text):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
@@ -35,5 +36,6 @@ def bitrix_webhook():
     send_telegram_message(message)
     return "OK", 200
 
-if name == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
